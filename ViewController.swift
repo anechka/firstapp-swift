@@ -37,21 +37,22 @@ class ViewController: UIViewController {
         let tapRec = UITapGestureRecognizer(target: self, action: "tapHandler")
         mycustomView.addGestureRecognizer(tapRec)
 
-        blueLayer.delegate = self
+        //blueLayer.delegate = self
         
-        blueLayer.frame = CGRectMake(50.0, 50.0, 100.0, 100.0);
-        blueLayer.backgroundColor = UIColor.blueColor().CGColor;
+        blueLayer.frame = CGRectMake(50.0, 50.0, 400.0, 333.0);
+        blueLayer.contents = UIImage(named: "oct")?.CGImage
+        
+        blueLayer.backgroundColor = UIColor.blackColor().CGColor;
         
         
-        blueLayer.position = CGPoint(x: CGFloat(self.view.bounds.size.width) / 2, y: CGFloat(self.view.bounds.size.height) / 2)
-        
+        blueLayer.position = CGPoint(x: CGFloat(self.view.bounds.size.width) / 2, y: CGFloat(self.view.bounds.size.height) / 2)       
         mycustomView.layer.addSublayer(blueLayer)
         
     
         
         
         self.view = mycustomView
-        blueLayer.setNeedsDisplay()
+        //blueLayer.setNeedsDisplay()
 
         
 
@@ -61,9 +62,16 @@ class ViewController: UIViewController {
     override func drawLayer(layer: CALayer, inContext ctx: CGContext) {
         print("drawLayer")
         
-        CGContextSetFillColorWithColor(ctx, UIColor.redColor().CGColor)
-        CGContextAddRect(ctx, CGRectMake(0.0, 0.0, 40, 40))
-        CGContextFillPath(ctx)
+        let myImage = UIImage(named: "oct")
+
+        
+        //CGContextScaleCTM(ctx, 0.1, 0.1);
+        CGContextDrawImage(ctx, CGRectMake(0, 0, 200, 200), myImage?.CGImage)
+
+        
+//        CGContextSetFillColorWithColor(ctx, UIColor.redColor().CGColor)
+//        CGContextAddRect(ctx, CGRectMake(0.0, 0.0, 40, 40))
+//        CGContextFillPath(ctx)
     }
     
     func timehandler() {
