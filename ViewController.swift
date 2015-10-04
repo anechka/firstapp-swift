@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     var switcherFlag: Bool = false
+    let blueLayer: CALayer = CALayer()
     
     @IBOutlet weak var simpleButton: UIButton!
     @IBOutlet weak var textField: UITextField!
@@ -30,21 +31,40 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+      
         let mycustomView = CustomView()
         
+        let tapRec = UITapGestureRecognizer(target: self, action: "tapHandler")
+        mycustomView.addGestureRecognizer(tapRec)
+
+        blueLayer.delegate = self
         
-        //let tapRec = UITapGestureRecognizer(target: self, action: "tapHandler")
-        //simpleButton.addGestureRecognizer(tapRec)
+        blueLayer.frame = CGRectMake(50.0, 50.0, 100.0, 100.0);
+        blueLayer.backgroundColor = UIColor.blueColor().CGColor;
+        
+        
+        blueLayer.position = CGPoint(x: CGFloat(self.view.bounds.size.width) / 2, y: CGFloat(self.view.bounds.size.height) / 2)
+        
+        mycustomView.layer.addSublayer(blueLayer)
+        
+    
+        
+        
+        self.view = mycustomView
+        blueLayer.setNeedsDisplay()
+
         
 
         
-        self.view = mycustomView
-        
-        NSTimer.scheduledTimerWithTimeInterval(0.0400, target: self, selector: "timehandler",
-            userInfo: nil, repeats: true)
     }// end view didload
     
+    override func drawLayer(layer: CALayer, inContext ctx: CGContext) {
+        print("drawLayer")
+        
+        CGContextSetFillColorWithColor(ctx, UIColor.redColor().CGColor)
+        CGContextAddRect(ctx, CGRectMake(0.0, 0.0, 40, 40))
+        CGContextFillPath(ctx)
+    }
     
     func timehandler() {
         self.view.setNeedsDisplay()
@@ -53,6 +73,14 @@ class ViewController: UIViewController {
     
     func tapHandler() {
        print("tap")
+        
+        
+        let theAnim = CABasicAnimation(keyPath: "position")
+        theAnim.fromValue = NSValue(CGPoint: CGPoint(x: CGFloat(self.view.bounds.size.width) / 2, y: CGFloat(self.view.bounds.size.height) / 2 ))
+        theAnim.toValue = NSValue(CGPoint: CGPoint(x: CGFloat(self.view.bounds.size.width) / 2 + 50.0, y: CGFloat(self.view.bounds.size.height) / 2))
+        theAnim.duration = 3
+        
+        blueLayer.addAnimation(theAnim, forKey: "position")
     }
 
 

@@ -16,12 +16,12 @@ class CustomView: UIView {
     var redColorComponent: CGFloat = 0.5
     var greenColorComponent: CGFloat = 0.5
     var blueColorComponent: CGFloat = 0.5
-    
+
     
     override func drawRect(rect: CGRect) {
-
+        print("drawrect")
         
-      
+        
         let context: CGContextRef? = UIGraphicsGetCurrentContext()
         CGContextClearRect(context, self.bounds)
         
@@ -62,4 +62,6 @@ class CustomView: UIView {
         
         self.counter++
     } // end of drawRect
+
+    
 }
